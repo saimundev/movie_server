@@ -65,12 +65,6 @@ export const getMovie = async (req, res) => {
 //watch list
 export const createWatchList = async (req, res) => {
   try {
-    const isExistItem = await WatchListModel.findOne({
-      movieId: req.body.movieId,
-    });
-
-    if (isExistItem)
-      return res.status(400).json({ message: "Already Added Wish List" });
     await WatchListModel.create(req.body);
     res.status(201).json({ message: "Watch list added successful" });
   } catch (error) {
@@ -104,13 +98,6 @@ export const removeWatchList = async (req, res) => {
 //create rating movie
 export const ratingMovie = async (req, res) => {
   try {
-    const isExistRating = await RatingModel.findOne({
-      movieId: req.body.movieId,
-    });
-
-    if (isExistRating)
-      return res.status(400).json({ message: "Already Rated" });
-
     const rating = await RatingModel.create(req.body);
     await MoviesModel.findByIdAndUpdate(
       { _id: req.body.movieId },
